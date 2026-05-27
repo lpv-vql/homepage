@@ -1,2 +1,27 @@
 https://fontawesome.com/search
 https://jsfiddle.net/
+
+.profile-list {
+  max-width: 400px; /* 全体の横幅（お好みで調整してください） */
+  margin: 0 auto;   /* リスト自体を画面の中央に配置 */
+}
+
+.profile-item {
+  display: flex;
+  border-bottom: 1px dashed #ccc;
+  padding: 10px 0;
+}
+
+.profile-item dt {
+  width: 50%;         /* 全体の半分の幅を「項目名」に使う */
+  text-align: right;  /* 【重要】中央の境界線に向かって右揃えにする */
+  padding-right: 15px;/* 中央のあいだに適度なすき間を作る */
+  font-weight: bold;
+}
+
+.profile-item dd {
+  width: 50%;         /* 全体の半分の幅を「中身」に使う */
+  text-align: left;   /* 【重要】中央の境界線からスタートして左揃えにする */
+  padding-left: 15px; /* 中央のあいだに適度なすき間を作る */
+  margin: 0;
+}
