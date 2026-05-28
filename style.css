@@ -38,26 +38,22 @@ h1:hover .lpv-vql-icon {
 
 .profile-list {
   margin: 0 auto;
-
-  opacity: 0;
-  transform: translateY(-10px);
   display: none;
-  transition: 
-    opacity 0.4s ease, 
-    transform 0.4s ease, 
-    display 0.4s allow-discrete;
 }
 
 details[open] .profile-list {
-  opacity: 1;
-  transform: translateY(0);
   display: block;
+  animation: fadeInProfile 0.4s ease forwards;
 }
 
-@starting-style {
-  details[open] .profile-list {
+@keyframes fadeInProfile {
+  0% {
     opacity: 0;
     transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -109,7 +105,6 @@ h3 {
   gap: 12px;
   padding: 20px 10px;
   background-color: #fff;
-  color: #333;
   text-decoration: none;
   border: 1px solid #ccc;
   border-radius: 12px;
