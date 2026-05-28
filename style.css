@@ -116,7 +116,7 @@ svg path {
   fill: #000;
 }
 
-.works-list a {
+.works-list a, .reciprocal-link-list a {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -132,7 +132,7 @@ svg path {
   transition: all 0.1s ease-in-out;
 }
 
-.works-list a:hover {
+.works-list a, .reciprocal-link-list a:hover {
   border-color: #3b82f6;
   transform: scale(1.03);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
@@ -145,3 +145,5 @@ svg path {
 .works-icon {
   font-size: 30px;
 }
+
+
