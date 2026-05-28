@@ -1,7 +1,7 @@
 @keyframes bodySlideUp {
   from {
     opacity: 0;
-    transform: translateY(15px); /* 開始位置を少し下に */
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
