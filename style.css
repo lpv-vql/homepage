@@ -153,9 +153,12 @@ footer {
   padding: 20px 40px;
 }
 
+footer p {
+  color: #666;
+}
+
 footer a {
-  color: #333;
-  font-weight: 500;
+  color: #666;
   text-decoration: none;
 }
 
