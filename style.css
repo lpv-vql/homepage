@@ -1,17 +1,4 @@
-@keyframes bodySlideUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-body {
-  animation: bodySlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-  
+body {  
   margin: 0 auto;
   max-width: 900px;
   padding: 0 40px;
