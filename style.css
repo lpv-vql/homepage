@@ -108,6 +108,7 @@ h3 {
   text-decoration: none;
   border: 1px solid #ccc;
   border-radius: 12px;
+  color: #333;
   font-weight: bold;
   font-size: 14px;
   transition: all 0.1s ease-in-out;
