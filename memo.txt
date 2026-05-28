@@ -1,5 +1,6 @@
-https://fontawesome.com/search
-https://jsfiddle.net/
+GitHubアイコン：https://fontawesome.com/search
+Xアイコン：https://about.x.com/ja/who-we-are/brand-toolkit
+htmlプレビュー：https://jsfiddle.net/
 
 .profile-list {
   max-width: 400px; /* 全体の横幅（お好みで調整してください） */
