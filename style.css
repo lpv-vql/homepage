@@ -10,8 +10,8 @@ body {
 }
 
 .profile-list {
-  max-width: 400px; /* 全体の横幅（お好みで調整してください） */
-  margin: 0 auto;   /* リスト自体を画面の中央に配置 */
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .profile-item {
@@ -34,7 +34,6 @@ body {
   margin: 0;
 }
 
-/* 全体のコンテナ設定（ここがグリッドの肝です） */
 .account-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -44,7 +43,6 @@ body {
   margin: 0 auto;
 }
 
-/* リンクボタン単体の設定 */
 .account-list a {
   display: flex;
   flex-direction: column;
