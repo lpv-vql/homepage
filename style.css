@@ -114,8 +114,8 @@ h3 {
   object-fit: contain;
 }
 
-svg path {
-  fill: #000 !important;
+.svg-icon {
+  fill: #000;
 }
 
 .works-list a, .reciprocal-link-list a {
