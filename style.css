@@ -33,6 +33,11 @@ body {
   margin: 0;
 }
 
+h2 {
+  font-size: 40px;
+  font-weight: 400;
+}
+
 .account-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
