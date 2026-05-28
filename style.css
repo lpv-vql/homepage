@@ -23,38 +23,23 @@ h1 {
   font-style: normal;
 }
 
-.lpv-vql-icon {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-  
-  filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.3));
-  transition: transform 0.3s ease;
-}
-
-h1:hover .lpv-vql-icon {
-  transform: translateY(-2px) rotate(4deg);
-}
-
-.profile-list {
+details dl.profile-list {
   margin: 0 auto;
-  display: none;
+  
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
 }
 
-details[open] .profile-list {
-  display: block;
-  animation: fadeInProfile 0.4s ease forwards;
+details[open] dl.profile-list {
+  max-height: 500px; 
+  opacity: 1;
 }
 
-@keyframes fadeInProfile {
-  0% {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+details summary {
+  cursor: pointer;
+  outline: none;
 }
 
 .profile-item {
