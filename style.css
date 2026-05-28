@@ -17,6 +17,12 @@ body {
 h1 {
   font-size: 80px;
   font-weight: 300;
+
+  font-family: "Saira Stencil", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 
 .lpv-vql-icon {
