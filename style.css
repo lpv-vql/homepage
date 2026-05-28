@@ -9,6 +9,31 @@ body {
   border-radius: 20%;
 }
 
+.profile-list {
+  max-width: 400px; /* 全体の横幅（お好みで調整してください） */
+  margin: 0 auto;   /* リスト自体を画面の中央に配置 */
+}
+
+.profile-item {
+  display: flex;
+  border-bottom: 1px dashed #ccc;
+  padding: 10px 0;
+}
+
+.profile-item dt {
+  width: 50%;
+  text-align: right;
+  padding-right: 15px;
+  font-weight: bold;
+}
+
+.profile-item dd {
+  width: 50%;
+  text-align: left;
+  padding-left: 15px;
+  margin: 0;
+}
+
 .icon {
   width: 40px;
   height: 40px;
