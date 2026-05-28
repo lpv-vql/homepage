@@ -8,6 +8,10 @@ body {
   background-position: 0 0, 20px 20px;
   background-attachment: fixed;
   background-color: #fff;
+
+  font-family: "IBM Plex Sans JP", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .lpv-vql-icon {
