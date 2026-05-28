@@ -132,7 +132,7 @@ svg path {
   transition: all 0.1s ease-in-out;
 }
 
-.works-list a, .reciprocal-link-list a:hover {
+.works-list a:hover, .reciprocal-link-list a:hover {
   border-color: #3b82f6;
   transform: scale(1.03);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
