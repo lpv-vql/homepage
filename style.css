@@ -3,11 +3,13 @@ body {
   max-width: 900px;
   padding: 0 40px;
 
-  background-image: url('images/background-image.png');
+  background-image: 
+    radial-gradient(#ccc 20%, transparent 20%),
+    radial-gradient(#ccc 20%, transparent 20%);
+  background-size: 4px 4px;
+  background-position: 0 0, 20px 20px;
   background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  background-color: #ffffff; 
 }
 
 .lpv-vql-icon {
