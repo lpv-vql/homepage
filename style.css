@@ -113,7 +113,7 @@ h3 {
 }
 
 svg path {
-  fill: #000;
+  fill: #000 !important;
 }
 
 .works-list a, .reciprocal-link-list a {
