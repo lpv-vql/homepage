@@ -25,17 +25,20 @@ h1 {
   font-style: normal;
 }
 
+details {
+  transition: all 0.3s ease-out;
+  overflow: hidden;
+}
+
 details dl.profile-list {
   margin: 0 auto;
-  
   max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
   opacity: 0;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
 }
 
 details[open] dl.profile-list {
-  max-height: 660px; 
+  max-height: 660px; /* プロフィールが収まる十分な高さ */
   opacity: 1;
 }
 
