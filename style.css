@@ -35,7 +35,7 @@ details dl.profile-list {
 }
 
 details[open] dl.profile-list {
-  max-height: 1000px; 
+  max-height: 660px; 
   opacity: 1;
 }
 
