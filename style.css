@@ -37,6 +37,27 @@ h1:hover .lpv-vql-icon {
 
 .profile-list {
   margin: 0 auto;
+
+  opacity: 0;
+  transform: translateY(-10px);
+  display: none;
+  transition: 
+    opacity 0.4s ease, 
+    transform 0.4s ease, 
+    display 0.4s allow-discrete;
+}
+
+details[open] .profile-list {
+  opacity: 1;
+  transform: translateY(0);
+  display: block;
+}
+
+@starting-style {
+  details[open] .profile-list {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
 .profile-item {
