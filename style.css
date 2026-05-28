@@ -1,7 +1,13 @@
 body {
-    margin: 0 auto;
-    max-width: 900px;
-    padding: 0 40px;
+  margin: 0 auto;
+  max-width: 900px;
+  padding: 0 40px;
+
+  background-image: url('images/background-image');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 .lpv-vql-icon {
