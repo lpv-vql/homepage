@@ -115,3 +115,33 @@ h3 {
 svg path {
   fill: #000;
 }
+
+.works-list a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  gap: 12px;
+  padding: 20px 30px;
+  background-color: #fff;
+  text-decoration: none;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  color: #333;
+  margin-bottom: 16px;
+  transition: all 0.1s ease-in-out;
+}
+
+.works-list a:hover {
+  border-color: #3b82f6;
+  transform: scale(1.03);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-weight: bold;
+}
+
+.works-icon {
+  font-size: 30px;
+}
