@@ -82,6 +82,11 @@ h2 {
   font-weight: 300;
 }
 
+h3 {
+  font-weight: 400;
+  font-size: 20px;
+}
+
 .account-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
