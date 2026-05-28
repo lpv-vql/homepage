@@ -1,7 +1,6 @@
 GitHubアイコン：https://fontawesome.com/search
 Xアイコン：https://about.x.com/ja/who-we-are/brand-toolkit
 その他アイコン：https://www.google.com/s2/favicons?domain=<URL>&sz=256
-htmlプレビュー：https://jsfiddle.net/
 
 .profile-list {
   max-width: 400px; /* 全体の横幅（お好みで調整してください） */
