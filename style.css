@@ -152,9 +152,10 @@ h3 {
 }
 
 footer {
-  background-color: #fefefe;
+  background-color: #fdfdfd;
   padding: 20px 40px;
   border-top: 1px solid #ccc;
+  color: #777;
 }
 
 footer h1 {
@@ -164,17 +165,17 @@ footer h1 {
   margin: 10px 0;
 }
 
+footer h1 span {
+    font-size: 30px;
+}
+
 footer h2 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-footer p {
-  color: #666;
-}
-
 footer a {
-  color: #666;
+  color: #777;
   text-decoration: none;
 }
 
