@@ -157,6 +157,13 @@ footer {
   border-top: 1px solid #ccc;
 }
 
+footer h1 {
+  font-size: 50px;
+  font-family: 'IBM Plex Sans JP';
+  font-weight: 500;
+  margin: 10px 0;
+}
+
 footer p {
   color: #666;
 }
