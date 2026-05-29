@@ -38,7 +38,7 @@ details dl.profile-list {
 }
 
 details[open] dl.profile-list {
-  max-height: 660px; /* プロフィールが収まる十分な高さ */
+  max-height: 660px;
   opacity: 1;
 }
 
