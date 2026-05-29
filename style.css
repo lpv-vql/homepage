@@ -154,6 +154,7 @@ h3 {
 footer {
   background-color: #fefefe;
   padding: 20px 40px;
+  border-top: 1px solid #ccc;
 }
 
 footer p {
