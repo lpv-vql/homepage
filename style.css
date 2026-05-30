@@ -34,7 +34,7 @@ body {
 main {
   margin: 0 auto;
   max-width: 1000px;
-  padding: 0 40px;
+  padding: 40px;
 }
 
 .fade-in {
@@ -55,6 +55,7 @@ h1 {
   font-optical-sizing: auto;
   font-weight: 600;
   font-style: normal;
+  margin-top: 0;
 }
 
 details dl.profile-list {
