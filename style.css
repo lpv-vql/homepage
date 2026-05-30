@@ -92,13 +92,11 @@ h3 {
   color: #333;
   font-weight: bold;
   font-size: 14px;
-  transition: all 0.1s ease-in-out;
+  transition: transform 0.1s ease;
 }
 
 .account-list a:hover {
-  border-color: #3b82f6;
-  transform: scale(1.03);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: perspective(500px) rotateX(30deg);
 }
 
 .icon {
@@ -125,13 +123,11 @@ h3 {
   border-radius: 12px;
   color: #333;
   margin-bottom: 16px;
-  transition: all 0.1s ease-in-out;
+  transition: transform 0.1s ease;
 }
 
 .works-list a:hover, .reciprocal-link-list a:hover {
-  border-color: #3b82f6;
-  transform: scale(1.01);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transform: perspective(500px) rotateX(30deg);
 }
 
 .title {
