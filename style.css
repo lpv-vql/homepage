@@ -1,7 +1,7 @@
 :root {
   --background-color: #fff;
   --text-color: #333;
-  --border-color: #ccc;
+  --border-color: ##d6d6d6;
 }
 
 body {  
@@ -58,7 +58,7 @@ details summary {
 
 .profile-item {
   display: flex;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(border-color);
   padding: 10px 0;
 }
 
