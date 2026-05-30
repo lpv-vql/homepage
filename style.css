@@ -174,18 +174,15 @@ h3 {
   font-size: 30px;
 }
 
-.control-panel {
-  background: #222;
-  color: #fff;
-  padding: 15px;
-  border-bottom: 2px solid #441111;
-}
-
 .theme-buttons {
   margin-bottom: 15px;
 }
 
 .theme-buttons button {
+  color: var(--text-color);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
   padding: 8px 12px;
   margin-right: 10px;
   cursor: pointer;
