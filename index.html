@@ -227,6 +227,30 @@
 
   <section class="fade-in">
     <h2>Contact</h2>
+    <div class="contact-form-wrapper">
+      <form id="contactForm">
+        <div class="form-group">
+          <label Kakunin for="name">お名前 <span class="required-badge">必須</span></label>
+          <input type="text" id="name" name="name" placeholder="山田 太郎" required>
+        </div>
+            
+        <div class="form-group">
+          <label for="email">メールアドレス <span class="required-badge">必須</span></label>
+          <input type="email" id="email" name="email" placeholder="example@email.com" required>
+        </div>
+            
+        <div class="form-group">
+          <label for="message">お問い合わせ内容 <span class="required-badge">必須</span></label>
+          <textarea id="message" name="message" rows="6" placeholder="お問い合わせ内容をご記入ください" required></textarea>
+        </div>
+            
+        <div class="form-submit">
+          <button type="submit" id="submitBtn">送信する</button>
+        </div>
+      </form>
+
+      <div id="responseMessage" class="response-message"></div>
+    </div>
   </section>
 
   <section class="fade-in">
@@ -271,6 +295,7 @@
 <script src="https://counter.nanasi-rasi.net/counter.js"></script>
 <script>
 alert("作り途中");
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -416,6 +441,55 @@ function convertToHex(color) {
 
 document.getElementById('btn-light').addEventListener('click', () => setBaseTheme('LIGHT'));
 document.getElementById('btn-dark').addEventListener('click', () => setBaseTheme('DARK'));
+
+
+
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const submitBtn = document.getElementById('submitBtn');
+  const responseMessage = document.getElementById('responseMessage');
+  
+  // 1. 二重送信を防ぐ
+  submitBtn.disabled = true;
+  responseMessage.style.color = '#333';
+  responseMessage.textContent = '送信中...';
+  
+  // 2. 【重要】ここにGASで発行した「ウェブアプリのURL」を貼り付けてください
+  const GAS_URL = 'YOUR_GAS_WEB_APP_URL_HERE'; 
+  
+  // 3. 入力データの取得
+  const formData = {
+    name: document.getElementById('name').value,
+    email: document.getElementById('email').value,
+    message: document.getElementById('message').value
+  };
+  
+  try {
+    // 4. GASへデータを非同期送信
+    const response = await fetch(GAS_URL, {
+      method: 'POST',
+      body: JSON.stringify(formData)
+    });
+    
+    const result = await response.json();
+    
+    if (result.result === 'success') {
+      responseMessage.style.color = '#2ecc71';
+      responseMessage.textContent = 'お問い合わせを送信しました。ありがとうございました！';
+      document.getElementById('contactForm').reset(); // フォーム入力をクリア
+    } else {
+      throw new Error(result.error);
+    }
+  } catch (error) {
+    console.error(error);
+    responseMessage.style.color = '#e74c3c';
+    responseMessage.textContent = 'エラーが発生しました。お手数ですが、時間をおいて再度お試しください。';
+  } finally {
+    // 5. ボタンを再活性化
+    submitBtn.disabled = false;
+  }
+});
 </script>
 
 </body>
