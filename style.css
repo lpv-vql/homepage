@@ -17,6 +17,18 @@ main {
   padding: 0 40px;
 }
 
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease; /* 0.8sかけて変化 */
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0); /* 元の位置に戻る */
+}
+
+
 h1 {
   font-size: 100px;
   font-family: "Montserrat", sans-serif;
