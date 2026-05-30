@@ -450,15 +450,12 @@ document.getElementById('contactForm').addEventListener('submit', async function
   const submitBtn = document.getElementById('submitBtn');
   const responseMessage = document.getElementById('responseMessage');
   
-  // 1. 二重送信を防ぐ
   submitBtn.disabled = true;
   responseMessage.style.color = '#333';
   responseMessage.textContent = '送信中...';
   
-  // 2. 【重要】ここにGASで発行した「ウェブアプリのURL」を貼り付けてください
-  const GAS_URL = 'YOUR_GAS_WEB_APP_URL_HERE'; 
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbw34WNzRNk2PctjlEWYgB2nTFEq7mT71AmHStZ2_EdGtIixCg0NeWIvYQKPlzKkLNZ1vQ/exec'; 
   
-  // 3. 入力データの取得
   const formData = {
     name: document.getElementById('name').value,
     email: document.getElementById('email').value,
@@ -466,7 +463,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
   };
   
   try {
-    // 4. GASへデータを非同期送信
     const response = await fetch(GAS_URL, {
       method: 'POST',
       body: JSON.stringify(formData)
@@ -476,8 +472,8 @@ document.getElementById('contactForm').addEventListener('submit', async function
     
     if (result.result === 'success') {
       responseMessage.style.color = '#2ecc71';
-      responseMessage.textContent = 'お問い合わせを送信しました。ありがとうございました！';
-      document.getElementById('contactForm').reset(); // フォーム入力をクリア
+      responseMessage.textContent = 'お問い合わせを送信しました。';
+      document.getElementById('contactForm').reset();
     } else {
       throw new Error(result.error);
     }
@@ -486,7 +482,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
     responseMessage.style.color = '#e74c3c';
     responseMessage.textContent = 'エラーが発生しました。お手数ですが、時間をおいて再度お試しください。';
   } finally {
-    // 5. ボタンを再活性化
     submitBtn.disabled = false;
   }
 });
