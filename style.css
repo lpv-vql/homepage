@@ -1,4 +1,4 @@
-:root {
+:root[theme='LIGHT'] {
   --background-color: #fff;
   --text-color: #333;
   --border-color: #d6d6d6;
@@ -6,6 +6,16 @@
   --icon-color: #000;
   --footer-text-color: #777;
   --footer-background-color: #fdfdfd;
+}
+
+:root[theme='DARK'] {
+  --background-color: #000;
+  --text-color: #eee;
+  --border-color: #5c5c5c;
+  --accent-color: #629eff;
+  --icon-color: #fff;
+  --footer-text-color: #111;
+  --footer-background-color: #bbb;
 }
 
 body {  
