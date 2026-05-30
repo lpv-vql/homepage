@@ -22,7 +22,6 @@
     </p>
     <details>
       <summary>もっと見る</summary>
-      <div class="details-content">
       <dl class="profile-list">
         <div class="profile-item">
           <dt>年齢</dt>
@@ -85,7 +84,6 @@
           <dd>秋</dd>
         </div>
       </dl>
-      </div>
     </details>
   </div>
       
@@ -253,55 +251,7 @@
 </footer>
 
 <script>
-document.querySelectorAll('.js-details').forEach((details) => {
-  const summary = details.querySelector('summary');
-  const content = details.querySelector('.details-content');
-  let isAnimating = false; // 連打防止フラグ
 
-  summary.addEventListener('click', (e) => {
-    // ブラウザの「一瞬で開閉する」デフォルト挙動を止める
-    e.preventDefault();
-
-    if (isAnimating) return;
-
-    // 開くとき
-    if (!details.open) {
-      details.open = true;
-      isAnimating = true;
-
-      // 実際の中身の高さをその場で計算する
-      const openHeight = content.offsetHeight;
-      
-      // 0から実際の高さまでアニメーション
-      content.animate([
-        { height: '0px', opacity: 0 },
-        { height: `${openHeight}px`, opacity: 1 }
-      ], {
-        duration: 300, // 0.3秒
-        easing: 'ease-out'
-      }).onfinish = () => {
-        isAnimating = false;
-      };
-
-    // 閉じるとき
-    } else {
-      isAnimating = true;
-      const closeHeight = content.offsetHeight;
-
-      // 実際の高さから0までアニメーション
-      content.animate([
-        { height: `${closeHeight}px`, opacity: 1 },
-        { height: '0px', opacity: 0 }
-      ], {
-        duration: 300,
-        easing: 'ease-out'
-      }).onfinish = () => {
-        details.open = false; // アニメーションが終わってから完全に閉じる
-        isAnimating = false;
-      };
-    }
-  });
-});
 </script>
 
 </body>
