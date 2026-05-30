@@ -5,16 +5,16 @@
 }
 
 body {  
-  background-image: radial-gradient(var(border-color) 1%, transparent 5%);
+  background-image: radial-gradient(var(--border-color) 1%, transparent 5%);
   background-size: 40px 40px;
   background-position: 0 0, 20px 20px;
   background-attachment: fixed;
-  background-color: var(background-color);
+  background-color: var(--background-color);
 
   font-family: "IBM Plex Sans JP", sans-serif;
   font-weight: 400;
   font-style: normal;
-  color: var(text-color);
+  color: var(--text-color);
 }
 
 main {
@@ -58,7 +58,7 @@ details summary {
 
 .profile-item {
   display: flex;
-  border-bottom: 1px solid var(border-color);
+  border-bottom: 1px solid var(--border-color);
   padding: 10px 0;
 }
 
@@ -103,11 +103,11 @@ h3 {
   justify-content: center;
   gap: 12px;
   padding: 20px 10px;
-  background-color: var(background-color);
+  background-color: var(--background-color);
   text-decoration: none;
-  border: 1px solid var(border-color);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  color: var(text-color);
+  color: var(--text-color);
   font-weight: bold;
   font-size: 14px;
   transition: all 0.1s ease-in-out;
@@ -137,11 +137,11 @@ h3 {
   justify-content: left;
   gap: 12px;
   padding: 20px 30px;
-  background-color: var(background-color);
+  background-color: var(--background-color);
   text-decoration: none;
-  border: 1px solid var(border-color);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  color: var(text-color);
+  color: var(--text-color);
   margin-bottom: 16px;
   transition: all 0.1s ease-in-out;
 }
@@ -163,7 +163,7 @@ h3 {
 footer {
   background-color: #fdfdfd;
   padding: 20px 40px;
-  border-top: 1px solid var(border-color);
+  border-top: 1px solid var(--border-color);
   color: #777;
 }
 
