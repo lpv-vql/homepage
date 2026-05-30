@@ -267,16 +267,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // 画面内に入ったらクラスを追加
         entry.target.classList.add("is-visible");
-        // 一度表示されたら監視を解除（何度もアニメーションさせない場合）
         obs.unobserve(entry.target);
       }
     });
   }, {
     root: null,
     rootMargin: "0px",
-    threshold: 0.1 // 要素が10%見えたら発火
+    threshold: 0.2
   });
 
   targets.forEach(target => observer.observe(target));
