@@ -208,6 +208,7 @@ footer {
   padding: 20px 40px;
   border-top: 1px solid var(--border-color);
   color: var(--footer-text-color);
+  transition: 0.4s;
 }
 
 footer h1 {
