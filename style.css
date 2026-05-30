@@ -14,8 +14,8 @@
   --border-color: #5c5c5c;
   --accent-color: #629eff;
   --icon-color: #fff;
-  --footer-text-color: #111;
-  --footer-background-color: #bbb;
+  --footer-text-color: #bbb;
+  --footer-background-color: #111;
 }
 
 body {  
