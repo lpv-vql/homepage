@@ -257,6 +257,35 @@
 
       <div id="responseMessage" class="response-message"></div>
     </div>
+
+    <h3>オープンチャット</h3>
+    <div class="comment-form-wrapper">
+      <form id="commentForm" onsubmit="submitParentComment(event)">
+        <div class="comment-form-grid">
+          <div class="form-group">
+            <label for="commentName">表示名</label>
+            <input type="text" id="commentName" required>
+          </div>
+          <div class="form-group">
+            <label for="commentPass">自分のコード</label>
+            <input type="password" id="commentPass" required placeholder="ハッシュ化されます">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="commentText">コメント内容</label>
+          <textarea id="commentText" rows="3" required></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" id="commentSubmitBtn">投稿する</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="commentContainer" class="comment-container">コメントを読み込み中...</div>
+  
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="toggleCommentsBtn" class="more-btn" onclick="toggleMoreComments()" style="display:none;">過去のコメントをすべて見る</button>
+    </div>
   </section>
 
   <section class="fade-in">
@@ -300,7 +329,7 @@
 alert("作り途中");
 
 
-
+// 色変更
 document.addEventListener("DOMContentLoaded", () => {
   const targets = document.querySelectorAll(".fade-in");
 
@@ -446,7 +475,7 @@ document.getElementById('btn-light').addEventListener('click', () => setBaseThem
 document.getElementById('btn-dark').addEventListener('click', () => setBaseTheme('DARK'));
 
 
-
+// お問い合わせ
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
   
@@ -495,6 +524,176 @@ document.getElementById('contactForm').addEventListener('submit', async function
     submitBtn.disabled = false;
   }
 });
+
+
+// オープンチャット
+const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvWJvYpTJBBRTrH33jOIGS52T4nyRthFNn62VoUrUVT7pwd/exec";
+
+  let allComments = [];
+  let showAll = false;
+
+  // ページ読み込み時にコメント一覧を取得
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchComments();
+  });
+
+  // GASからコメント一覧を取得する関数
+  async function fetchComments() {
+    try {
+      const response = await fetch(GAS_URL);
+      allComments = await response.json();
+      renderComments(allComments);
+    } catch (error) {
+      document.getElementById('commentContainer').innerText = "コメントの読み込みに失敗しました。";
+      console.error(error);
+    }
+  }
+
+  // 親コメントの送信処理
+  async function submitParentComment(e) {
+    e.preventDefault();
+    const submitBtn = document.getElementById('commentSubmitBtn');
+    submitBtn.disabled = true;
+
+    const data = {
+      name: document.getElementById('commentName').value,
+      password: document.getElementById('commentPass').value,
+      content: document.getElementById('commentText').value,
+      parentId: ''
+    };
+
+    await sendComment(data);
+    document.getElementById('commentForm').reset();
+    submitBtn.disabled = false;
+  }
+
+  // 返信コメントの送信処理
+  async function submitReply(button, parentId) {
+    const wrapper = button.parentElement;
+    const name = wrapper.querySelector('.reply-name').value;
+    const password = wrapper.querySelector('.reply-pass').value;
+    const content = wrapper.querySelector('.reply-text').value;
+    
+    if(!name || !password || !content) return alert('全ての項目を入力してください。');
+    
+    button.disabled = true;
+    await sendComment({ name, password, content, parentId });
+  }
+
+  // GASにデータをPOST送信する共通関数
+  async function sendComment(data) {
+    try {
+      const response = await fetch(GAS_URL, {
+        method: "POST",
+        mode: "cors", // クロスドメイン通信を許可
+        headers: { "Content-Type": "text/plain" }, // GASの仕様上text/plainが安全
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      if(result.status === 'success') {
+        allComments = result.data;
+        renderComments(allComments);
+      } else {
+        alert("エラーが発生しました: " + result.message);
+      }
+    } catch (error) {
+      alert("通信エラーが発生しました。");
+      console.error(error);
+    }
+  }
+
+  // 返信フォームの開閉切り替え
+  function toggleReplyForm(button) {
+    const form = button.nextElementSibling;
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    button.textContent = form.style.display === 'block' ? 'キャンセル' : '返信する';
+  }
+
+  // 折りたたみ切り替え
+  function toggleMoreComments() {
+    showAll = !showAll;
+    renderComments(allComments);
+  }
+
+  // コメントのHTML描画処理
+  function renderComments(comments) {
+    const container = document.getElementById('commentContainer');
+    container.innerHTML = '';
+    
+    const parents = comments.filter(c => !c.parentId);
+    const replies = comments.filter(c => c.parentId);
+    
+    if(parents.length === 0) {
+      container.innerHTML = '<p>まだ投稿はありません。</p>';
+      return;
+    }
+
+    // 折りたたみ判定：全表示でない場合は「最新の1件のみ」
+    const displayedParents = showAll ? parents : [parents[parents.length - 1]];
+    
+    // 「もっと見る」ボタンの表示制御
+    const btn = document.getElementById('toggleCommentsBtn');
+    if (parents.length > 1) {
+      btn.style.display = 'block';
+      btn.textContent = showAll ? 'コメントを折りたたむ' : '過去のコメントをすべて見る';
+    } else {
+      btn.style.display = 'none';
+    }
+
+    // ループしてHTMLを組み立て（最新が下、古いものが上に並びます）
+    displayedParents.forEach(parent => {
+      const thread = document.createElement('div');
+      thread.className = 'comment-thread';
+      
+      thread.innerHTML = `
+        <div class="comment-box parent-comment">
+          <div class="comment-header">
+            <strong>${escapeHtml(parent.name)}</strong>
+            <span class="hash-tag">#${parent.passwordHash}</span>
+            <span class="comment-date">${parent.timestamp}</span>
+          </div>
+          <p class="comment-content">${escapeHtml(parent.content)}</p>
+          <button class="reply-trigger" onclick="toggleReplyForm(this)">返信する</button>
+          <div class="reply-form-wrapper" style="display: none;">
+            <div class="comment-form-grid" style="margin-bottom:8px;">
+              <input type="text" placeholder="名前" class="reply-name" style="width:50%; padding:5px;" required>
+              <input type="password" placeholder="パスワード" class="reply-pass" style="width:50%; padding:5px;" required>
+            </div>
+            <textarea placeholder="返信を入力..." rows="2" class="reply-text" style="width:100%; padding:5px; box-sizing:border-box;" required></textarea>
+            <button onclick="submitReply(this, '${parent.id}')">返信を送信</button>
+          </div>
+        </div>
+      `;
+
+      // この親に対する返信を抽出してグループ化（右ズレは1階層のみ）
+      const childComments = replies.filter(r => r.parentId === parent.id);
+      if(childComments.length > 0) {
+        const repliesGroup = document.createElement('div');
+        repliesGroup.className = 'replies-group';
+        
+        childComments.forEach(child => {
+          repliesGroup.innerHTML += `
+            <div class="comment-box reply-comment">
+              <div class="comment-header">
+                <strong>${escapeHtml(child.name)}</strong>
+                <span class="hash-tag">#${child.passwordHash}</span>
+                <span class="comment-date">${child.timestamp}</span>
+              </div>
+              <p class="comment-content">${escapeHtml(child.content)}</p>
+            </div>
+          `;
+        });
+        thread.appendChild(repliesGroup);
+      }
+      container.appendChild(thread);
+    });
+  }
+
+  // エスケープ処理（セキュリティ・XSS対策）
+  function escapeHtml(str) {
+    return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+  }
+
 </script>
 
 </body>
