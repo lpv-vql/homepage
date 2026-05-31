@@ -299,25 +299,62 @@ button:hover {
   margin-bottom: 10px;
   position: relative;
 }
-.comment-header { font-size: 0.85rem; color: #666; margin-bottom: 8px; }
-.hash-tag { background: #e0e0e0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.8rem; margin-left: 5px; color: #333; }
-.comment-date { margin-left: 10px; }
-.comment-content { margin: 0 0 10px 0; white-space: pre-wrap; line-height: 1.6; }
-  
-/* 返信の右ズレ（1階層のみ） */
-.replies-group { margin-left: 40px; border-left: 2px solid #ddd; padding-left: 15px; }
-.reply-comment { background: #ffffff; }
 
-/* ボタン類 */
-.reply-trigger, .more-btn { background: none; border: none; color: #0066cc; cursor: pointer; padding: 0; font-size: 0.9rem; text-decoration: underline; }
-.more-btn { font-weight: bold; font-size: 1rem; margin: 20px auto; }
+.comment-header {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  margin-bottom: 8px;
+}
+
+.hash-tag {
+  background: var(--footer-text-color);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  margin-left: 5px;
+  color: var(--background-color);
+}
+
+.comment-date {
+  margin-left: 10px;
+}
+
+.comment-content {
+  margin: 0 0 10px 0;
+  white-space: pre-wrap;
+}
+  
+.replies-group {
+  margin-left: 30px;
+  border-left: 2px solid var(--border-color);
+  padding-left: 15px;
+}
+
+.reply-trigger, .more-btn {
+  background: none;
+  border: none;
+  color: var(--accent-color);
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.reply-trigger:hover, .more-btn:hover {
+  text-decoration: underline;
+  border: none;
+}
+
+.more-btn {
+  font-size: 1rem;
+  margin: 20px auto;
+}
  
-/* 返信フォーム */
 .reply-form-wrapper {
   margin-top: 10px;
   padding: 15px;
   border: 1px solid var(--border-color);
   border-radius: 6px;
+  background-color: var(--footer-background-color);
 }
 
 
