@@ -596,27 +596,48 @@ async function submitParentComment(e) {
   
   submitBtn.disabled = false;
 }
+
   // 返信コメントの送信処理
-  async function submitReply(button, parentId) {
-    const wrapper = button.parentElement;
-    const name = wrapper.querySelector('.reply-name').value;
-    const password = wrapper.querySelector('.reply-pass').value;
-    const content = wrapper.querySelector('.reply-text').value;
-    
-    if(!name || !password || !content) return alert('全ての項目を入力してください。');
-    
-    // ★返信欄で入力された内容もLocalStorageに保存（同期）
-    localStorage.setItem('comment_saved_name', name);
-    localStorage.setItem('comment_saved_pass', password);
-    
-    // 親フォーム側の表示も同期させる
-    document.getElementById('commentName').value = name;
-    document.getElementById('commentPass').value = password;
-
-    button.disabled = true;
-    await sendComment({ name, password, content, parentId });
+async function submitReply(button, parentId) {
+  const wrapper = button.parentElement;
+  const name = wrapper.querySelector('.reply-name').value;
+  const password = wrapper.querySelector('.reply-pass').value;
+  const content = wrapper.querySelector('.reply-text').value;
+  
+  if(!name || !password || !content) return alert('全ての項目を入力してください。');
+  
+  // ★1. 画面中央の共通reCAPTCHAから認証トークンを取得
+  const token = grecaptcha.getResponse();
+  
+  if (!token) {
+    alert("「私はロボットではありません」にチェックを入れてください。");
+    return;
   }
+  
+  // LocalStorageに入力内容を保存（同期）
+  localStorage.setItem('comment_saved_name', name);
+  localStorage.setItem('comment_saved_pass', password);
+  
+  // 親フォーム側の表示も同期させる
+  document.getElementById('commentName').value = name;
+  document.getElementById('commentPass').value = password;
 
+  button.disabled = true;
+
+  // ★2. 送信データに「recaptchaToken」を含める（GAS側のdoPostで自動的に検証されます）
+  const data = { 
+    name, 
+    password, 
+    content, 
+    parentId, 
+    recaptchaToken: token 
+  };
+
+  await sendComment(data);
+  
+  // ★3. 送信が成功したら、チェックボックスをまっさらにリセットする
+  grecaptcha.reset();
+}
   async function sendComment(data) {
     try {
       const response = await fetch(GAS_URL, {
