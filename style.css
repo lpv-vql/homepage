@@ -230,12 +230,12 @@ button:hover {
   font-family: inherit;
 }
 
-.form-group input:focus, .form-group textarea:focus {
+.contact-form-wrapper input:focus, .contact-form-wrapper textarea:focus {
   border-color: var(--accent-color);
   outline: none;
 }
 
-textarea {
+.contact-form-wrapper textarea {
     width: 100%;
     height: 180px;
     resize: vertical;
@@ -257,6 +257,29 @@ textarea {
 }
 
 
+
+.open-chat input, .open-chat textarea {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.open-chat input:focus, .open-chat textarea:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+.open-chat textarea {
+    width: 100%;
+    height: 100px;
+    resize: vertical;
+}
 
 .comment-section { margin-top: 80px; }
 .comment-form-grid { display: flex; gap: 15px; }
@@ -282,6 +305,7 @@ textarea {
 /* 返信フォーム */
 .reply-form-wrapper { margin-top: 10px; padding: 15px; background: #f0f0f0; border-radius: 6px; }
 .reply-form-wrapper button { margin-top: 8px; background: #333; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+
 
 
 .theme-buttons {
