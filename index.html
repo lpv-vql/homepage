@@ -259,36 +259,39 @@
     </div>
 
     <h3>オープンチャット</h3>
-    <p>後でCSSをどうにかする</p>
-    <div class="open-chat">
-      <div class="comment-form-wrapper">
-        <form id="commentForm" onsubmit="submitParentComment(event)">
-          <div class="comment-form-grid">
-            <div class="form-group">
-              <label for="commentName">表示名</label>
-              <input type="text" id="commentName" required>
+    <p>誰でも自由に投稿できるオープンチャット</p>
+    <details>
+    <summary>開く</summary>
+      <div class="open-chat">
+        <div class="comment-form-wrapper">
+          <form id="commentForm" onsubmit="submitParentComment(event)">
+            <div class="comment-form-grid">
+              <div class="form-group">
+                <label for="commentName">表示名</label>
+                <input type="text" id="commentName" required>
+              </div>
+              <div class="form-group">
+                <label for="commentPass">自分のコード</label>
+                <input type="password" id="commentPass" required placeholder="ハッシュ化されます">
+               </div>
             </div>
             <div class="form-group">
-              <label for="commentPass">自分のコード</label>
-              <input type="password" id="commentPass" required placeholder="ハッシュ化されます">
+              <label for="commentText">コメント内容</label>
+              <textarea id="commentText" rows="3" required></textarea>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="commentText">コメント内容</label>
-            <textarea id="commentText" rows="3" required></textarea>
-          </div>
-          <div class="form-submit">
-            <button type="submit" id="commentSubmitBtn">投稿する</button>
-          </div>
-        </form>
-      </div>
+            <div class="form-submit">
+              <button type="submit" id="commentSubmitBtn">投稿する</button>
+            </div>
+          </form>
+        </div>
 
-      <div id="commentContainer" class="comment-container">コメントを読み込み中...</div>
+        <div id="commentContainer" class="comment-container">コメントを読み込み中...</div>
   
-      <div style="text-align: center; margin-top: 20px;">
-        <button id="toggleCommentsBtn" class="more-btn" onclick="toggleMoreComments()" style="display:none;">過去のコメントをすべて見る</button>
+        <div style="text-align: center; margin-top: 20px;">
+          <button id="toggleCommentsBtn" class="more-btn" onclick="toggleMoreComments()" style="display:none;">過去のコメントをすべて見る</button>
+        </div>
       </div>
-    </div>
+    </details>
   </section>
 
   <section class="fade-in">
