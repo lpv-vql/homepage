@@ -690,9 +690,13 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvW
   }
 
   // エスケープ処理（セキュリティ・XSS対策）
-  function escapeHtml(str) {
-    return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
-  }
+function escapeHtml(val) {
+  if (val === null || val === undefined) return '';
+  
+  const str = String(val);
+  
+  return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+}
 
 </script>
 
