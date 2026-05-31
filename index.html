@@ -693,10 +693,10 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvW
           <button class="reply-trigger" onclick="toggleReplyForm(this)">返信する</button>
           <div class="reply-form-wrapper" style="display: none;">
             <div class="comment-form-grid" style="margin-bottom:8px;">
-              <input type="text" placeholder="名前" class="reply-name" style="width:50%; padding:5px;" required>
-              <input type="password" placeholder="パスワード" class="reply-pass" style="width:50%; padding:5px;" required>
+              <input type="text" placeholder="名前" class="reply-name" required>
+              <input type="password" placeholder="パスワード" class="reply-pass" required>
             </div>
-            <textarea placeholder="返信を入力..." rows="2" class="reply-text" style="width:100%; padding:5px; box-sizing:border-box;" required></textarea>
+            <textarea placeholder="返信を入力..." rows="2" class="reply-text" required></textarea>
             <button onclick="submitReply(this, '${parent.id}')">返信を送信</button>
           </div>
         </div>
