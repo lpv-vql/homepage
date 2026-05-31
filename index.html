@@ -451,7 +451,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
   const responseMessage = document.getElementById('responseMessage');
   
   submitBtn.disabled = true;
-  responseMessage.style.color = '#333';
   responseMessage.textContent = '送信中...';
   
   const GAS_URL = 'https://script.google.com/macros/s/AKfycbw34WNzRNk2PctjlEWYgB2nTFEq7mT71AmHStZ2_EdGtIixCg0NeWIvYQKPlzKkLNZ1vQ/exec'; 
@@ -471,7 +470,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
     const result = await response.json();
     
     if (result.result === 'success') {
-      responseMessage.style.color = '#2ecc71';
       responseMessage.textContent = 'お問い合わせを送信しました。';
       document.getElementById('contactForm').reset();
     } else {
@@ -479,7 +477,6 @@ document.getElementById('contactForm').addEventListener('submit', async function
     }
   } catch (error) {
     console.error(error);
-    responseMessage.style.color = '#e74c3c';
     responseMessage.textContent = 'エラーが発生しました。お手数ですが、時間をおいて再度お試しください。';
   } finally {
     submitBtn.disabled = false;
