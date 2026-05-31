@@ -654,81 +654,111 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvW
     renderComments(allComments);
   }
 
-  // コメントのHTML描画処理
-  function renderComments(comments) {
-    const container = document.getElementById('commentContainer');
-    container.innerHTML = '';
-    
-    const parents = comments.filter(c => !c.parentId);
-    const replies = comments.filter(c => c.parentId);
-    
-    if(parents.length === 0) {
-      container.innerHTML = '<p>まだ投稿はありません。</p>';
-      return;
-    }
-
-    const reversedParents = [...parents].reverse();
-    const displayedParents = reversedParents.slice(0, visibleCount);
-    
-    const btn = document.getElementById('toggleCommentsBtn');
-    if (reversedParents.length > visibleCount) {
-      btn.style.display = 'block';
-      btn.textContent = `さらに読み込む (残り ${reversedParents.length - visibleCount} 件)`;
-    } else {
-      btn.style.display = 'none';
-    }
-
-    displayedParents.forEach(parent => {
-      const thread = document.createElement('div');
-      thread.className = 'comment-thread';
-      
-      thread.innerHTML = `
-        <div class="comment-box parent-comment">
-          <div class="comment-header">
-            <strong>${escapeHtml(parent.name)}</strong>
-            <span class="hash-tag">#${parent.passwordHash}</span>
-            <span class="comment-date">${parent.timestamp}</span>
-          </div>
-          <p class="comment-content">${escapeHtml(parent.content)}</p>
-          <button class="reply-trigger" onclick="toggleReplyForm(this)">返信する</button>
-          <div class="reply-form-wrapper" style="display: none;">
-            <div class="comment-form-grid" style="margin-bottom:8px;">
-              <input type="text" placeholder="名前" class="reply-name" required>
-              <input type="password" placeholder="パスワード" class="reply-pass" required>
-            </div>
-            <textarea placeholder="返信を入力..." rows="2" class="reply-text" required></textarea>
-            <button onclick="submitReply(this, '${parent.id}')">返信を送信</button>
-          </div>
-        </div>
-      `;
-
-      const childComments = replies.filter(r => r.parentId === parent.id);
-      if(childComments.length > 0) {
-        const repliesGroup = document.createElement('div');
-        repliesGroup.className = 'replies-group';
-        
-        childComments.forEach(child => {
-          repliesGroup.innerHTML += `
-            <div class="comment-box reply-comment">
-              <div class="comment-header">
-                <strong>${escapeHtml(child.name)}</strong>
-                <span class="hash-tag">#${child.passwordHash}</span>
-                <span class="comment-date">${child.timestamp}</span>
-              </div>
-              <p class="comment-content">${escapeHtml(child.content)}</p>
-            </div>
-          `;
-        });
-        thread.appendChild(repliesGroup);
-      }
-      container.appendChild(thread);
-    });
+// コメントのHTML描画処理
+function renderComments(comments) {
+  const container = document.getElementById('commentContainer');
+  container.innerHTML = '';
+  
+  const parents = comments.filter(c => !c.parentId);
+  const replies = comments.filter(c => c.parentId);
+  
+  if(parents.length === 0) {
+    container.innerHTML = '<p>まだ投稿はありません。</p>';
+    return;
   }
+
+  const reversedParents = [...parents].reverse();
+  const displayedParents = reversedParents.slice(0, visibleCount);
+  
+  const btn = document.getElementById('toggleCommentsBtn');
+  if (reversedParents.length > visibleCount) {
+    btn.style.display = 'block';
+    btn.textContent = `さらに読み込む (残り ${reversedParents.length - visibleCount} 件)`;
+  } else {
+    btn.style.display = 'none';
+  }
+
+  displayedParents.forEach(parent => {
+    const thread = document.createElement('div');
+    thread.className = 'comment-thread';
+    
+    // ★親コメントの見出し部分で「formatDate(parent.timestamp)」を使用
+    thread.innerHTML = `
+      <div class="comment-box parent-comment">
+        <div class="comment-header">
+          <strong>${escapeHtml(parent.name)}</strong>
+          <span class="hash-tag">#${parent.passwordHash}</span>
+          <span class="comment-date">${formatDate(parent.timestamp)}</span>
+        </div>
+        <p class="comment-content">${escapeHtml(parent.content)}</p>
+        <button class="reply-trigger" onclick="toggleReplyForm(this)">返信する</button>
+        <div class="reply-form-wrapper" style="display: none;">
+          <div class="comment-form-grid" style="margin-bottom:8px;">
+            <input type="text" placeholder="名前" class="reply-name" style="width:50%; padding:5px;" required>
+            <input type="password" placeholder="パスワード" class="reply-pass" style="width:50%; padding:5px;" required>
+          </div>
+          <textarea placeholder="返信を入力..." rows="2" class="reply-text" style="width:100%; padding:5px; box-sizing:border-box;" required></textarea>
+          <button onclick="submitReply(this, '${parent.id}')">返信を送信</button>
+        </div>
+      </div>
+    `;
+
+    const childComments = replies.filter(r => r.parentId === parent.id);
+    if(childComments.length > 0) {
+      const repliesGroup = document.createElement('div');
+      repliesGroup.className = 'replies-group';
+      
+      childComments.forEach(child => {
+        // ★返信コメントの見出し部分でも「formatDate(child.timestamp)」を使用
+        repliesGroup.innerHTML += `
+          <div class="comment-box reply-comment">
+            <div class="comment-header">
+              <strong>${escapeHtml(child.name)}</strong>
+              <span class="hash-tag">#${child.passwordHash}</span>
+              <span class="comment-date">${formatDate(child.timestamp)}</span>
+            </div>
+            <p class="comment-content">${escapeHtml(child.content)}</p>
+          </div>
+        `;
+      });
+      thread.appendChild(repliesGroup);
+    }
+    container.appendChild(thread);
+  });
+}
 
   function escapeHtml(val) {
     if (val === null || val === undefined) return '';
     const str = String(val);
     return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+  }
+
+  // 日時を「yyyy/M/d H:mm」形式（日本時間）に変換する関数
+  function formatDate(val) {
+    if (!val) return '';
+  
+    const date = new Date(val);
+  
+    // 有効な日付データでない場合はそのまま返す
+    if (isNaN(date.getTime())) return val;
+  
+    // 日本時間（JST）のタイムゾーンで各要素を抽出
+    const formatter = new Intl.DateTimeFormat('ja-JP', {
+      timeZone: 'Asia/Tokyo',
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: false
+    });
+  
+    // パーツごとに分解して組み立て直す
+    const parts = formatter.formatToParts(date);
+    const hash = {};
+    parts.forEach(p => hash[p.type] = p.value);
+  
+    return `${hash.year}/${hash.month}/${hash.day} ${hash.hour}:${hash.minute}`;
   }
 </script>
 
