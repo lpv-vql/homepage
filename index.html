@@ -562,31 +562,41 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvW
   }
 
   // 親コメントの送信処理
-  async function submitParentComment(e) {
-    e.preventDefault();
-    const submitBtn = document.getElementById('commentSubmitBtn');
-    submitBtn.disabled = true;
-
-    const name = document.getElementById('commentName').value;
-    const password = document.getElementById('commentPass').value;
-    const content = document.getElementById('commentText').value;
-
-    // ★LocalStorageに入力内容を保存
-    localStorage.setItem('comment_saved_name', name);
-    localStorage.setItem('comment_saved_pass', password);
-
-    const data = { name, password, content, parentId: '' };
-
-    await sendComment(data);
-    
-    // フォームをリセットした後に、保存された値を再入力しておく
-    document.getElementById('commentForm').reset();
-    document.getElementById('commentName').value = name;
-    document.getElementById('commentPass').value = password;
-    
-    submitBtn.disabled = false;
+async function submitParentComment(e) {
+  e.preventDefault();
+  
+  // reCAPTCHAから認証トークンを取得
+  const token = grecaptcha.getResponse();
+  
+  if (!token) {
+    alert("「私はロボットではありません」にチェックを入れてください。");
+    return;
   }
 
+  const submitBtn = document.getElementById('commentSubmitBtn');
+  submitBtn.disabled = true;
+
+  const name = document.getElementById('commentName').value;
+  const password = document.getElementById('commentPass').value;
+  const content = document.getElementById('commentText').value;
+
+  localStorage.setItem('comment_saved_name', name);
+  localStorage.setItem('comment_saved_pass', password);
+
+  // トークンをデータに混ぜてGASに送る
+  const data = { name, password, content, parentId: '', recaptchaToken: token };
+
+  await sendComment(data);
+  
+  document.getElementById('commentForm').reset();
+  document.getElementById('commentName').value = name;
+  document.getElementById('commentPass').value = password;
+  
+  // ★送信が成功したらチェックボックスをまっさらにリセットする
+  grecaptcha.reset();
+  
+  submitBtn.disabled = false;
+}
   // 返信コメントの送信処理
   async function submitReply(button, parentId) {
     const wrapper = button.parentElement;
