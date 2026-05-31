@@ -534,6 +534,7 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvW
 
   let allComments = [];
   let showAll = false;
+  let visibleCount = 5;
 
   // ページ読み込み時にコメント一覧を取得
   document.addEventListener("DOMContentLoaded", () => {
@@ -612,14 +613,13 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvW
     button.textContent = form.style.display === 'block' ? 'キャンセル' : '返信する';
   }
 
-  // 折りたたみ切り替え
-  function toggleMoreComments() {
-    showAll = !showAll;
-    renderComments(allComments);
-  }
+// 「もっと読み込む」ボタンが押された時の処理
+function toggleMoreComments() {
+  visibleCount += 5; // ボタンを押すたびに表示枠を5件ずつ増やす
+  renderComments(allComments);
+}
 
-  // コメントのHTML描画処理
-// コメントのHTML描画処理（親は最新が上、返信は古い順に下へ）
+// コメントのHTML描画処理（5件ずつの読み込みに対応）
 function renderComments(comments) {
   const container = document.getElementById('commentContainer');
   container.innerHTML = '';
@@ -633,20 +633,20 @@ function renderComments(comments) {
     return;
   }
 
-  // ★ここがポイント：親投稿を「配列の最後（最新）」が先頭にくるように逆順（最新順）にする
+  // 親投稿を最新順（新しいものが上）に並び替え
   const reversedParents = [...parents].reverse();
 
-  // 2. 折りたたみ判定：全表示でない場合は「最新の1件のみ」を表示
-  // ※reversedParentsの[0]が、常に一番新しい親投稿になります
-  const displayedParents = showAll ? reversedParents : [reversedParents[0]];
+  // 2. 現在の表示枠数（visibleCount）分だけ親投稿を切り出す
+  const displayedParents = reversedParents.slice(0, visibleCount);
   
-  // 「もっと見る」ボタンの表示制御
+  // 「さらに読み込む」ボタンの表示・非表示制御
   const btn = document.getElementById('toggleCommentsBtn');
-  if (parents.length > 1) {
+  // 全体の親投稿数が、現在表示している件数より多ければボタンを表示
+  if (reversedParents.length > visibleCount) {
     btn.style.display = 'block';
-    btn.textContent = showAll ? 'コメントを折りたたむ' : '過去のコメントをすべて見る';
+    btn.textContent = `さらに読み込む (残り ${reversedParents.length - visibleCount} 件)`;
   } else {
-    btn.style.display = 'none';
+    btn.style.display = 'none'; // すべて読み込み終えたらボタンを隠す
   }
 
   // 3. ループしてHTMLを組み立て
@@ -674,7 +674,7 @@ function renderComments(comments) {
       </div>
     `;
 
-    // 4. この親に対する返信を抽出（スプレッドシートに溜まった順＝古い順＝上から下への流れ）
+    // 4. この親に対する返信を抽出（返信は常に全件表示、上から下への時系列）
     const childComments = replies.filter(r => r.parentId === parent.id);
     if(childComments.length > 0) {
       const repliesGroup = document.createElement('div');
