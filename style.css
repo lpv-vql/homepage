@@ -258,6 +258,32 @@ textarea {
 
 
 
+.comment-section { margin-top: 80px; }
+.comment-form-grid { display: flex; gap: 15px; }
+.comment-form-grid .form-group { flex: 1; }
+.comment-container { margin-top: 30px; }
+.comment-thread { margin-bottom: 25px; }
+  
+/* コメントカードの基本デザイン（Contactフォームのトーンに合わせて適宜調整してください） */
+.comment-box { background: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; padding: 15px; margin-bottom: 10px; position: relative; }
+.comment-header { font-size: 0.85rem; color: #666; margin-bottom: 8px; }
+.hash-tag { background: #e0e0e0; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.8rem; margin-left: 5px; color: #333; }
+.comment-date { margin-left: 10px; }
+.comment-content { margin: 0 0 10px 0; white-space: pre-wrap; line-height: 1.6; }
+  
+/* 返信の右ズレ（1階層のみ） */
+.replies-group { margin-left: 40px; border-left: 2px solid #ddd; padding-left: 15px; }
+.reply-comment { background: #ffffff; }
+
+/* ボタン類 */
+.reply-trigger, .more-btn { background: none; border: none; color: #0066cc; cursor: pointer; padding: 0; font-size: 0.9rem; text-decoration: underline; }
+.more-btn { font-weight: bold; font-size: 1rem; margin: 20px auto; }
+ 
+/* 返信フォーム */
+.reply-form-wrapper { margin-top: 10px; padding: 15px; background: #f0f0f0; border-radius: 6px; }
+.reply-form-wrapper button { margin-top: 8px; background: #333; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+
+
 .theme-buttons {
   margin-bottom: 15px;
 }
