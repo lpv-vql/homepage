@@ -259,32 +259,35 @@
     </div>
 
     <h3>オープンチャット</h3>
-    <div class="comment-form-wrapper">
-      <form id="commentForm" onsubmit="submitParentComment(event)">
-        <div class="comment-form-grid">
-          <div class="form-group">
-            <label for="commentName">表示名</label>
-            <input type="text" id="commentName" required>
+    <p>後でオープンチャットをどうにかする</p>
+    <div class="open-chat">
+      <div class="comment-form-wrapper">
+        <form id="commentForm" onsubmit="submitParentComment(event)">
+          <div class="comment-form-grid">
+            <div class="form-group">
+              <label for="commentName">表示名</label>
+              <input type="text" id="commentName" required>
+            </div>
+            <div class="form-group">
+              <label for="commentPass">自分のコード</label>
+              <input type="password" id="commentPass" required placeholder="ハッシュ化されます">
+            </div>
           </div>
           <div class="form-group">
-            <label for="commentPass">自分のコード</label>
-            <input type="password" id="commentPass" required placeholder="ハッシュ化されます">
+            <label for="commentText">コメント内容</label>
+            <textarea id="commentText" rows="3" required></textarea>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="commentText">コメント内容</label>
-          <textarea id="commentText" rows="3" required></textarea>
-        </div>
-        <div class="form-submit">
-          <button type="submit" id="commentSubmitBtn">投稿する</button>
-        </div>
-      </form>
-    </div>
+          <div class="form-submit">
+            <button type="submit" id="commentSubmitBtn">投稿する</button>
+          </div>
+        </form>
+      </div>
 
-    <div id="commentContainer" class="comment-container">コメントを読み込み中...</div>
+      <div id="commentContainer" class="comment-container">コメントを読み込み中...</div>
   
-    <div style="text-align: center; margin-top: 20px;">
-      <button id="toggleCommentsBtn" class="more-btn" onclick="toggleMoreComments()" style="display:none;">過去のコメントをすべて見る</button>
+      <div style="text-align: center; margin-top: 20px;">
+        <button id="toggleCommentsBtn" class="more-btn" onclick="toggleMoreComments()" style="display:none;">過去のコメントをすべて見る</button>
+      </div>
     </div>
   </section>
 
@@ -616,78 +619,84 @@ const GAS_URL = "https://script.google.com/macros/s/AKfycbx-2_mFVREerctbt43cyvvW
   }
 
   // コメントのHTML描画処理
-  function renderComments(comments) {
-    const container = document.getElementById('commentContainer');
-    container.innerHTML = '';
-    
-    const parents = comments.filter(c => !c.parentId);
-    const replies = comments.filter(c => c.parentId);
-    
-    if(parents.length === 0) {
-      container.innerHTML = '<p>まだ投稿はありません。</p>';
-      return;
-    }
-
-    // 折りたたみ判定：全表示でない場合は「最新の1件のみ」
-    const displayedParents = showAll ? parents : [parents[parents.length - 1]];
-    
-    // 「もっと見る」ボタンの表示制御
-    const btn = document.getElementById('toggleCommentsBtn');
-    if (parents.length > 1) {
-      btn.style.display = 'block';
-      btn.textContent = showAll ? 'コメントを折りたたむ' : '過去のコメントをすべて見る';
-    } else {
-      btn.style.display = 'none';
-    }
-
-    // ループしてHTMLを組み立て（最新が下、古いものが上に並びます）
-    displayedParents.forEach(parent => {
-      const thread = document.createElement('div');
-      thread.className = 'comment-thread';
-      
-      thread.innerHTML = `
-        <div class="comment-box parent-comment">
-          <div class="comment-header">
-            <strong>${escapeHtml(parent.name)}</strong>
-            <span class="hash-tag">#${parent.passwordHash}</span>
-            <span class="comment-date">${parent.timestamp}</span>
-          </div>
-          <p class="comment-content">${escapeHtml(parent.content)}</p>
-          <button class="reply-trigger" onclick="toggleReplyForm(this)">返信する</button>
-          <div class="reply-form-wrapper" style="display: none;">
-            <div class="comment-form-grid" style="margin-bottom:8px;">
-              <input type="text" placeholder="名前" class="reply-name" style="width:50%; padding:5px;" required>
-              <input type="password" placeholder="パスワード" class="reply-pass" style="width:50%; padding:5px;" required>
-            </div>
-            <textarea placeholder="返信を入力..." rows="2" class="reply-text" style="width:100%; padding:5px; box-sizing:border-box;" required></textarea>
-            <button onclick="submitReply(this, '${parent.id}')">返信を送信</button>
-          </div>
-        </div>
-      `;
-
-      // この親に対する返信を抽出してグループ化（右ズレは1階層のみ）
-      const childComments = replies.filter(r => r.parentId === parent.id);
-      if(childComments.length > 0) {
-        const repliesGroup = document.createElement('div');
-        repliesGroup.className = 'replies-group';
-        
-        childComments.forEach(child => {
-          repliesGroup.innerHTML += `
-            <div class="comment-box reply-comment">
-              <div class="comment-header">
-                <strong>${escapeHtml(child.name)}</strong>
-                <span class="hash-tag">#${child.passwordHash}</span>
-                <span class="comment-date">${child.timestamp}</span>
-              </div>
-              <p class="comment-content">${escapeHtml(child.content)}</p>
-            </div>
-          `;
-        });
-        thread.appendChild(repliesGroup);
-      }
-      container.appendChild(thread);
-    });
+// コメントのHTML描画処理（親は最新が上、返信は古い順に下へ）
+function renderComments(comments) {
+  const container = document.getElementById('commentContainer');
+  container.innerHTML = '';
+  
+  // 1. 親コメントと返信を分離
+  const parents = comments.filter(c => !c.parentId);
+  const replies = comments.filter(c => c.parentId);
+  
+  if(parents.length === 0) {
+    container.innerHTML = '<p>まだ投稿はありません。</p>';
+    return;
   }
+
+  // ★ここがポイント：親投稿を「配列の最後（最新）」が先頭にくるように逆順（最新順）にする
+  const reversedParents = [...parents].reverse();
+
+  // 2. 折りたたみ判定：全表示でない場合は「最新の1件のみ」を表示
+  // ※reversedParentsの[0]が、常に一番新しい親投稿になります
+  const displayedParents = showAll ? reversedParents : [reversedParents[0]];
+  
+  // 「もっと見る」ボタンの表示制御
+  const btn = document.getElementById('toggleCommentsBtn');
+  if (parents.length > 1) {
+    btn.style.display = 'block';
+    btn.textContent = showAll ? 'コメントを折りたたむ' : '過去のコメントをすべて見る';
+  } else {
+    btn.style.display = 'none';
+  }
+
+  // 3. ループしてHTMLを組み立て
+  displayedParents.forEach(parent => {
+    const thread = document.createElement('div');
+    thread.className = 'comment-thread';
+    
+    thread.innerHTML = `
+      <div class="comment-box parent-comment">
+        <div class="comment-header">
+          <strong>${escapeHtml(parent.name)}</strong>
+          <span class="hash-tag">#${parent.passwordHash}</span>
+          <span class="comment-date">${parent.timestamp}</span>
+        </div>
+        <p class="comment-content">${escapeHtml(parent.content)}</p>
+        <button class="reply-trigger" onclick="toggleReplyForm(this)">返信する</button>
+        <div class="reply-form-wrapper" style="display: none;">
+          <div class="comment-form-grid" style="margin-bottom:8px;">
+            <input type="text" placeholder="名前" class="reply-name" style="width:50%; padding:5px;" required>
+            <input type="password" placeholder="パスワード" class="reply-pass" style="width:50%; padding:5px;" required>
+          </div>
+          <textarea placeholder="返信を入力..." rows="2" class="reply-text" style="width:100%; padding:5px; box-sizing:border-box;" required></textarea>
+          <button onclick="submitReply(this, '${parent.id}')">返信を送信</button>
+        </div>
+      </div>
+    `;
+
+    // 4. この親に対する返信を抽出（スプレッドシートに溜まった順＝古い順＝上から下への流れ）
+    const childComments = replies.filter(r => r.parentId === parent.id);
+    if(childComments.length > 0) {
+      const repliesGroup = document.createElement('div');
+      repliesGroup.className = 'replies-group';
+      
+      childComments.forEach(child => {
+        repliesGroup.innerHTML += `
+          <div class="comment-box reply-comment">
+            <div class="comment-header">
+              <strong>${escapeHtml(child.name)}</strong>
+              <span class="hash-tag">#${child.passwordHash}</span>
+              <span class="comment-date">${child.timestamp}</span>
+            </div>
+            <p class="comment-content">${escapeHtml(child.content)}</p>
+          </div>
+        `;
+      });
+      thread.appendChild(repliesGroup);
+    }
+    container.appendChild(thread);
+  });
+}
 
   // エスケープ処理（セキュリティ・XSS対策）
 function escapeHtml(val) {
