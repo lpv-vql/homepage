@@ -244,6 +244,10 @@
           <label for="message">お問い合わせ内容</label>
           <textarea id="message" name="message" rows="6" required></textarea>
         </div>
+
+        <div class="form-group" style="text-align: center;">
+          <div class="g-recaptcha" data-sitekey="6LciBwUtAAAAAJNfh8XbPumVuCcrMayPlurqayG_" style="display: inline-block;"></div>
+        </div>
             
         <div class="form-submit">
           <button type="submit" id="submitBtn">送信する</button>
@@ -290,6 +294,7 @@
 </footer>
 
 <script src="https://counter.nanasi-rasi.net/counter.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
 alert("作り途中");
 
@@ -446,16 +451,24 @@ document.getElementById('contactForm').addEventListener('submit', async function
   
   const submitBtn = document.getElementById('submitBtn');
   const responseMessage = document.getElementById('responseMessage');
+
+  const recaptchaResponse = grecaptcha.getResponse();
+
+  if (!recaptchaResponse) {
+    responseMessage.textContent = '「私はロボットではありません」にチェックを入れてください。';
+    return;
+  }
   
   submitBtn.disabled = true;
   responseMessage.textContent = '送信中...';
   
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbw34WNzRNk2PctjlEWYgB2nTFEq7mT71AmHStZ2_EdGtIixCg0NeWIvYQKPlzKkLNZ1vQ/exec'; 
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbyH_RbLxc07L2ew6Ffzmlml2nBznVMS3N-lJ4IYgMcrkJgOLeX8OJiTwyH9Gx_Jt_FB2g/exec'; 
   
   const formData = {
     name: document.getElementById('name').value,
     email: document.getElementById('email').value,
     message: document.getElementById('message').value
+    recaptchaToken: recaptchaResponse
   };
   
   try {
@@ -469,12 +482,14 @@ document.getElementById('contactForm').addEventListener('submit', async function
     if (result.result === 'success') {
       responseMessage.textContent = 'お問い合わせを送信しました。';
       document.getElementById('contactForm').reset();
+      grecaptcha.reset();
     } else {
       throw new Error(result.error);
     }
   } catch (error) {
     console.error(error);
     responseMessage.textContent = 'エラーが発生しました。お手数ですが、時間をおいて再度お試しください。';
+    grecaptcha.reset();
   } finally {
     submitBtn.disabled = false;
   }
