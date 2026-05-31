@@ -253,7 +253,6 @@ textarea {
 .response-message {
   margin-top: 20px;
   text-align: center;
-  font-weight: bold;
   color: var(--text-color);
 }
 
