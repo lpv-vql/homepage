@@ -325,9 +325,8 @@ button:hover {
 }
   
 .replies-group {
-  margin-left: 30px;
   border-left: 2px solid var(--border-color);
-  padding-left: 15px;
+  padding-left: 20px;
 }
 
 .reply-trigger, .more-btn {
