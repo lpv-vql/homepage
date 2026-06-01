@@ -1,4 +1,0 @@
-GitHubアイコン：https://fontawesome.com/search
-Xアイコン：https://about.x.com/ja/who-we-are/brand-toolkit
-その他アイコン：https://www.google.com/s2/favicons?domain=<URL>&sz=256
-フォント：Montserrat, IBM Plex Sans JP
