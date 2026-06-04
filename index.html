@@ -334,7 +334,7 @@
 
 <footer>
   <p>
-    <h1>lpv_vqlのホームページ<span>v3.0</span></h1>
+    <h1>lpv_vqlのホームページ<span>v3.0.1</span></h1>
     2026/06/02公開　<span id="counturl"></span>アクセス
   </p>
   <p>
@@ -352,6 +352,18 @@
   </p>
   <p>&copy; 2026 lpv_vql</p>
 </footer>
-
+<script>
+window.addEventListener('load', () => {
+  const hash = window.location.hash;
+  if (hash) {
+    const target = document.querySelector(hash);
+    if (target) {
+      target.classList.add('fade-in'); 
+      target.style.opacity = '1';
+      target.style.transform = 'none';
+    }
+  }
+});
+</script>
 </body>
 </html>
