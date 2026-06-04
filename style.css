@@ -42,13 +42,12 @@ main {
   padding: 40px;
 }
 
-.fade-in {
+.fade-in:not(:has(:target)) {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
-.fade-in:has(:target),
 .fade-in.is-visible {
   opacity: 1;
   transform: translateY(0);
