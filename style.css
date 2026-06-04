@@ -48,6 +48,7 @@ main {
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
+.fade-in:has(:target),
 .fade-in.is-visible {
   opacity: 1;
   transform: translateY(0);
