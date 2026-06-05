@@ -363,18 +363,23 @@
     const targetElement = document.querySelector(hash);
     
     if (targetElement) {
-      // その要素の次にある、または近くにある <details> タグを探す
-      const detailsElement = targetElement.nextElementSibling;
+      // 次の要素から順番に後ろを探索していく
+      let nextElem = targetElement.nextElementSibling;
       
-      // もし次の要素が <details> なら、open属性をtrueにする
-      if (detailsElement && detailsElement.tagName.toLowerCase() === 'details') {
-        detailsElement.open = true;
-        
-        // スムーススクロールが効かない場合の保険として、少し遅らせてスクロール位置を調整
-        setTimeout(() => {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
+      while (nextElem) {
+        // もし <details> タグが見つかったら開いてループを終了
+        if (nextElem.tagName.toLowerCase() === 'details') {
+          nextElem.open = true;
+          break;
+        }
+        // 次の要素が <details> でなければ、さらにその次の要素に進む
+        nextElem = nextElem.nextElementSibling;
       }
+      
+      // スクロール位置を少し遅らせて調整（確実に要素を開いてから位置を合わせるため）
+      setTimeout(() => {
+        targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
     }
   }
 
