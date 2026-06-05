@@ -352,5 +352,38 @@
   </p>
   <p>&copy; 2026 lpv_vql</p>
 </footer>
+
+<script>
+  function openDetailsByHash() {
+    // URLのハッシュ（例: #open-chat）を取得
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    // ハッシュに対応する要素（h3タグなど）を取得
+    const targetElement = document.querySelector(hash);
+    
+    if (targetElement) {
+      // その要素の次にある、または近くにある <details> タグを探す
+      const detailsElement = targetElement.nextElementSibling;
+      
+      // もし次の要素が <details> なら、open属性をtrueにする
+      if (detailsElement && detailsElement.tagName.toLowerCase() === 'details') {
+        detailsElement.open = true;
+        
+        // スムーススクロールが効かない場合の保険として、少し遅らせてスクロール位置を調整
+        setTimeout(() => {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  }
+
+  // 1. ページが読み込まれた時に実行
+  window.addEventListener('DOMContentLoaded', openDetailsByHash);
+
+  // 2. ページを開いたまま、別のハッシュリンクがクリックされた時にも実行
+  window.addEventListener('hashchange', openDetailsByHash);
+</script>
+  
 </body>
 </html>
