@@ -281,8 +281,7 @@
     <h3 id="open-chat">オープンチャット</h3>
     <p>
       誰でも自由に投稿できるオープンチャット<br>
-      本サービスはGoogleスプレッドシートを利用した簡易的なものです。データの永続的な保存は保証いたしません。<br>
-      匿名でもOKです！
+      本サービスはGoogleスプレッドシートを利用した簡易的なものです。データの永続的な保存は保証いたしません。
     </p>
     <details>
     <summary>開く</summary>
@@ -291,12 +290,12 @@
           <form id="commentForm" onsubmit="submitParentComment(event)">
             <div class="comment-form-grid">
               <div class="form-group">
-                <label for="commentName">表示名</label>
+                <label for="commentName">表示名（「匿名」とかでもOK!）</label>
                 <input type="text" id="commentName" required>
               </div>
               <div class="form-group">
                 <label for="commentPass">自分のコード</label>
-                <input type="password" id="commentPass" required placeholder="ハッシュ化されます">
+                <input type="password" id="commentPass" required placeholder="適当な英数字を入力してね">
                </div>
             </div>
             <div class="form-group">
