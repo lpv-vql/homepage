@@ -34,7 +34,7 @@ async function submitParentComment(e) {
   const token = grecaptcha.getResponse();
   
   if (!token) {
-    alert("「私はロボットではありません」にチェックを入れてください。");
+    alert("上の「私はロボットではありません」にチェックを入れてください。");
     return;
   }
 
